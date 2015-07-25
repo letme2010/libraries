@@ -36,9 +36,20 @@ module endStop() {
         cube([0.5,0.2,3], center = true);
 }
 
+module screwsM2_20() {
+    screws(m2_head_dia/2, m2_head_height, m2_20_body_dia/2, m2_20_body_height);
+}
+
+module screws(headR, headH, bodyR, bodyH) {
+    translate([0,0,(headH + bodyH)/2]) 
+        cylinder(r = headR, h = headH, center = true, $fn = 30);
+    cylinder(r = bodyR, h =  bodyH, center = true, $fn = 30);
+}
+
 module test() {
 //    LM8UU();
-    endStop();
+//    endStop();
+    screwsM2_20();
 }
 
 test();
