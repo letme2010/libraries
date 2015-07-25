@@ -19,9 +19,11 @@ module endStop() {
     //主体
     difference() {
         cube([endStopWidth, endStopLength, endStopHeight], center = true);
+        //孔
         translate([0,6.10/2,-2.1]) 
             rotate([0,90,0]) 
                 cylinder(r = endStopHoleRadius, h = 10, center = true, $fn = 30);
+        //孔
         translate([0,-6.10/2,-2.1]) 
             rotate([0,90,0]) 
                 cylinder(r = endStopHoleRadius, h = 10, center = true, $fn = 30);
@@ -37,7 +39,7 @@ module endStop() {
 }
 
 module screwsM2_20() {
-    screws(m2_head_dia/2, m2_head_height, m2_20_body_dia/2, m2_20_body_height);
+    screws(m2_head_d/2, m2_head_h, m2_body_d/2, m2_20_body_h);
 }
 
 module screws(headR, headH, bodyR, bodyH) {
