@@ -19,3 +19,9 @@ m2_body_d = 1.92;
 m2_20_h = 21.39;
 m2_20_body_h = m2_20_h - m2_head_h;
 
+servo_9g_arm1_r1 = 2;
+servo_9g_arm1_r2 = 7.22/2;
+servo_9g_length_of_circle = 16;
+servo_9g_small_h = 1.73;
+servo_9g_h = 4.6;
+servo_9g_hole_t = 1.29;

@@ -48,10 +48,60 @@ module screws(headR, headH, bodyR, bodyH) {
     cylinder(r = bodyR, h =  bodyH, center = true, $fn = 30);
 }
 
+module servoArm1() {
+difference() {
+    union() {
+        h_tmp = servo_9g_small_h;
+        //big circle
+        cylinder(r = servo_9g_arm1_r2, h = h_tmp, $fn = 100, center = false);
+        //small circle
+        translate([0,servo_9g_length_of_circle,0]) {
+            cylinder(r = servo_9g_arm1_r1, h = h_tmp, $fn = 100, center = false);
+        }
+        //polygon
+        linear_extrude(height = h_tmp, center = false) {
+            polygon(points=[
+                            [0,0],
+                            [servo_9g_arm1_r2,0],
+                            [servo_9g_arm1_r1,servo_9g_length_of_circle],
+                            [0,servo_9g_length_of_circle]
+                            ], paths=[[0,1,2,3]]);
+        }
+        mirror() {
+        linear_extrude(height = h_tmp, center = false) {
+            polygon(points=[
+                            [0,0],
+                            [servo_9g_arm1_r2,0],
+                            [servo_9g_arm1_r1,servo_9g_length_of_circle],
+                            [0,servo_9g_length_of_circle]
+                            ], paths=[[0,1,2,3]]);
+            }
+        }
+        //pipe
+        translate([0,0,0]) {
+            cylinder(r=servo_9g_arm1_r2, h=servo_9g_h, $fn=100);
+        }
+    }
+    translate([0,0,-1]) {
+        cylinder(r=(servo_9g_arm1_r2-servo_9g_hole_t), h=(servo_9g_h+2), $fn=100);
+    }
+}
+}
+
+module pipe(r_out, t, h, center = true) {
+    difference() {
+        cylinder(r = r_out, h = h, center = center, $fn = 100);
+        translate([0,0,-1]) {
+            cylinder(r = (r_out - t), h = (h + 2), center = center, $fn = 100);
+        }
+    }
+}
+
 module test() {
 //    LM8UU();
 //    endStop();
-    screwsM2_20();
+//    screwsM2_20();
+    servoArm1();
 }
 
 test();
