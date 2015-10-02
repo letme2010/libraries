@@ -2,9 +2,13 @@ include <const.scad>
 
 module LM8UU() {
     difference() {
-        cylinder(r = LM8UU_d_out/2, h = LM8UU_h, $fn = 30);
-        translate([0,0,-1]) cylinder(r = LM8UU_d_in/2, h = LM8UU_h + 2, $fn = 30);
+        cylinder(r = LM8UU_d_out/2, h = LM8UU_h, $fn = 100);
+        translate([0,0,-1]) cylinder(r = LM8UU_d_in/2, h = LM8UU_h + 2, $fn = 100);
     }
+}
+
+module belling608() {
+    pipe(r_out = r_out_608, t = (r_out_608 - r_in_608), h = h_608);
 }
 
 module endStop() {
@@ -101,7 +105,28 @@ module test() {
 //    LM8UU();
 //    endStop();
 //    screwsM2_20();
-    servoArm1();
+//    servoArm1();
+//    rect(w=10,h=10,r=2);
+}
+
+module rect(w,h,r=0) {
+    d = r*2;
+    width=w-d;
+    height=h-d;
+    if (0!=r) {
+        square([width,height],center=true);
+        translate([-width/2,-height/2,0]) {circle(r=r,$fn=100,center=true);}
+        translate([width/2,-height/2,0]) {circle(r=r,$fn=100,center=true);}
+        translate([-width/2,height/2,0]) {circle(r=r,$fn=100,center=true);}
+        translate([width/2,height/2,0]) {circle(r=r,$fn=100,center=true);}
+
+        translate([0,(height+r)/2,0]) {square([width,r],center=true);}
+        translate([0,-(height+r)/2,0]) {square([width,r],center=true);}
+        translate([(width+r)/2,0,0]) {square([r,height],center=true);}
+        translate([-(width+r)/2,0,0]) {square([r,height],center=true);}
+    } else {
+        square([width,height],center=true);
+    }
 }
 
 test();
