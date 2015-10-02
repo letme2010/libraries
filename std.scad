@@ -46,6 +46,10 @@ module screwsM2_20() {
     screws(m2_head_d/2, m2_head_h, m2_body_d/2, m2_20_body_h);
 }
 
+module screwsM4_10() {
+    screws(m4_head_d/2, m4_head_h, m4_body_d/2, m4_10_body_h);    
+}
+
 module screws(headR, headH, bodyR, bodyH) {
     translate([0,0,(headH + bodyH)/2]) 
         cylinder(r = headR, h = headH, center = true, $fn = 30);
@@ -96,7 +100,7 @@ module pipe(r_out, t, h, center = true) {
     difference() {
         cylinder(r = r_out, h = h, center = center, $fn = 100);
         translate([0,0,-1]) {
-            cylinder(r = (r_out - t), h = (h + 2), center = center, $fn = 100);
+            cylinder(r = (r_out - t), h = (h + 4), center = center, $fn = 100);
         }
     }
 }
@@ -107,6 +111,7 @@ module test() {
 //    screwsM2_20();
 //    servoArm1();
 //    rect(w=10,h=10,r=2);
+//    %square([10,10],center=true);
 }
 
 module rect(w,h,r=0) {
