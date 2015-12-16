@@ -59,11 +59,11 @@ module screws(headR, headH, bodyR, bodyH) {
 module servoArm1() {
 difference() {
     union() {
-        h_tmp = servo_9g_small_h;
+        h_tmp = servo_9g_arm1_small_h;
         //big circle
         cylinder(r = servo_9g_arm1_r2, h = h_tmp, $fn = 100, center = false);
         //small circle
-        translate([0,servo_9g_length_of_circle,0]) {
+        translate([0,servo_9g_arm1_length_of_circle,0]) {
             cylinder(r = servo_9g_arm1_r1, h = h_tmp, $fn = 100, center = false);
         }
         //polygon
@@ -71,8 +71,8 @@ difference() {
             polygon(points=[
                             [0,0],
                             [servo_9g_arm1_r2,0],
-                            [servo_9g_arm1_r1,servo_9g_length_of_circle],
-                            [0,servo_9g_length_of_circle]
+                            [servo_9g_arm1_r1,servo_9g_arm1_length_of_circle],
+                            [0,servo_9g_arm1_length_of_circle]
                             ], paths=[[0,1,2,3]]);
         }
         mirror() {
@@ -80,18 +80,18 @@ difference() {
             polygon(points=[
                             [0,0],
                             [servo_9g_arm1_r2,0],
-                            [servo_9g_arm1_r1,servo_9g_length_of_circle],
-                            [0,servo_9g_length_of_circle]
+                            [servo_9g_arm1_r1,servo_9g_arm1_length_of_circle],
+                            [0,servo_9g_arm1_length_of_circle]
                             ], paths=[[0,1,2,3]]);
             }
         }
         //pipe
         translate([0,0,0]) {
-            cylinder(r=servo_9g_arm1_r2, h=servo_9g_h, $fn=100);
+            cylinder(r=servo_9g_arm1_r2, h=servo_9g_arm1_h, $fn=100);
         }
     }
     translate([0,0,-1]) {
-        cylinder(r=(servo_9g_arm1_r2-servo_9g_hole_t), h=(servo_9g_h+2), $fn=100);
+        cylinder(r=(servo_9g_arm1_r2-servo_9g_arm1_hole_t), h=(servo_9g_arm1_h+2), $fn=100);
     }
 }
 }
@@ -112,6 +112,7 @@ module test() {
 //    servoArm1();
 //    rect(w=10,h=10,r=2);
 //    %square([10,10],center=true);
+    servo9g();
 }
 
 module rect(w,h,r=0) {
@@ -133,5 +134,18 @@ module rect(w,h,r=0) {
         square([width,height],center=true);
     }
 }
+
+module servo9g() {
+    %cube([servo_9g_body_w,servo_9g_body_l,servo_9g_body_h],center=true);
+    translate([0,servo_9g_axis_offset,(servo_9g_body_h-servo_9g_axis2_h)/2+servo_9g_axis2_h]) 
+        cylinder(r=servo_9g_axis2_r,h=servo_9g_axis2_h,center=true);
+    translate([0,servo_9g_axis_offset,(servo_9g_body_h-servo_9g_axis2_h)/2+servo_9g_axis2_h*2]) 
+        cylinder(r=servo_9g_axis1_r,h=servo_9g_axis1_h,center=true);
+    translate([0,(servo_9g_body_l-servo_9g_wings_l)/2+servo_9g_wings_l,(servo_9g_body_h-servo_9g_wings_h)/2-servo_9g_wings_top_margin]) 
+        cube([servo_9g_body_w,servo_9g_wings_l,servo_9g_wings_h],center=true);
+    translate([0,-((servo_9g_body_l-servo_9g_wings_l)/2+servo_9g_wings_l),(servo_9g_body_h-servo_9g_wings_h)/2-servo_9g_wings_top_margin]) 
+        cube([servo_9g_body_w,servo_9g_wings_l,servo_9g_wings_h],center=true);
+}
+
 
 test();

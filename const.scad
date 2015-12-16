@@ -28,7 +28,20 @@ m4_10_body_h = m4_10_h - m4_head_h;
 
 servo_9g_arm1_r1 = 2;
 servo_9g_arm1_r2 = 7.22/2;
-servo_9g_length_of_circle = 16;
-servo_9g_small_h = 1.73;
-servo_9g_h = 4.6;
-servo_9g_hole_t = 1.29;
+servo_9g_arm1_length_of_circle = 16;
+servo_9g_arm1_small_h = 1.73;
+servo_9g_arm1_h = 4.6;
+servo_9g_arm1_hole_t = 1.29;
+
+servo_9g_body_h = 23;
+servo_9g_body_w = 12.2;
+servo_9g_body_l = 29;
+servo_9g_wings_h = 3;
+servo_9g_wings_l = 5;
+servo_9g_wings_top_margin = 4;
+servo_9g_axis1_h = 2.5;
+servo_9g_axis1_r = 1.5;
+servo_9g_axis2_h = 3;
+servo_9g_axis2_r = servo_9g_body_w/2;
+servo_9g_axis_offset = 8;
+
