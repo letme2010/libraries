@@ -112,7 +112,8 @@ module test() {
 //    servoArm1();
 //    rect(w=10,h=10,r=2);
 //    %square([10,10],center=true);
-    servo9g();
+    #servo9g(false, false);
+    servo9gRotator1();
 }
 
 module rect(w,h,r=0) {
@@ -135,16 +136,69 @@ module rect(w,h,r=0) {
     }
 }
 
-module servo9g() {
-    %cube([servo_9g_body_w,servo_9g_body_l,servo_9g_body_h],center=true);
-    translate([0,servo_9g_axis_offset,(servo_9g_body_h-servo_9g_axis2_h)/2+servo_9g_axis2_h]) 
-        cylinder(r=servo_9g_axis2_r,h=servo_9g_axis2_h,center=true);
+module servo9g(aTopWing=true, aBottomWing=true) {
+    color ([0,0,1]) {
+        cube([servo_9g_body_w,servo_9g_body_l,servo_9g_body_h],center=true);
+        translate([0,servo_9g_axis_offset,(servo_9g_body_h-servo_9g_axis2_h)/2+servo_9g_axis2_h]) 
+            cylinder(r=servo_9g_axis2_r,h=servo_9g_axis2_h,center=true);
+        if (aTopWing) {
+            translate([0,(servo_9g_body_l-servo_9g_wings_l)/2+servo_9g_wings_l,(servo_9g_body_h-servo_9g_wings_h)/2-servo_9g_wings_top_margin]) 
+                cube([servo_9g_body_w,servo_9g_wings_l,servo_9g_wings_h],center=true);
+        }
+        if (aBottomWing) {
+            translate([0,-((servo_9g_body_l-servo_9g_wings_l)/2+servo_9g_wings_l),(servo_9g_body_h-servo_9g_wings_h)/2-servo_9g_wings_top_margin]) 
+                cube([servo_9g_body_w,servo_9g_wings_l,servo_9g_wings_h],center=true);
+        }
+
+    }
     translate([0,servo_9g_axis_offset,(servo_9g_body_h-servo_9g_axis2_h)/2+servo_9g_axis2_h*2]) 
-        cylinder(r=servo_9g_axis1_r,h=servo_9g_axis1_h,center=true);
-    translate([0,(servo_9g_body_l-servo_9g_wings_l)/2+servo_9g_wings_l,(servo_9g_body_h-servo_9g_wings_h)/2-servo_9g_wings_top_margin]) 
-        cube([servo_9g_body_w,servo_9g_wings_l,servo_9g_wings_h],center=true);
-    translate([0,-((servo_9g_body_l-servo_9g_wings_l)/2+servo_9g_wings_l),(servo_9g_body_h-servo_9g_wings_h)/2-servo_9g_wings_top_margin]) 
-        cube([servo_9g_body_w,servo_9g_wings_l,servo_9g_wings_h],center=true);
+        color([1,1,1])
+            cylinder(r=servo_9g_axis1_r,h=servo_9g_axis1_h,center=true);
+
+}
+
+module servo9gRotator1(aFn=16) {
+//    color([0,1,0],0.3){
+        thin = 2;
+        difference() {
+            union() {
+                //bottom panel
+                translate([0,0,-(servo_9g_body_h+thin)/2])
+                    cube([servo_9g_body_w, 2*thin+servo_9g_body_l, thin], center=true);
+
+                translate([(servo_9g_body_w+thin)/2,-thin,-(servo_9g_body_h)/2])
+                    cube([thin, thin, thin*2], center=true);
+                translate([(servo_9g_body_w+thin)/2,-thin*3,-(servo_9g_body_h)/2])
+                    cube([thin, thin, thin*2], center=true);
+                translate([(servo_9g_body_w+thin)/2,-thin*5,-(servo_9g_body_h)/2])
+                    cube([thin, thin, thin*2], center=true);
+
+                translate([-(servo_9g_body_w+thin)/2,-thin,-(servo_9g_body_h)/2])
+                    cube([thin, thin, thin*2], center=true);
+                translate([-(servo_9g_body_w+thin)/2,-thin*3,-(servo_9g_body_h)/2])
+                    cube([thin, thin, thin*2], center=true);
+                translate([-(servo_9g_body_w+thin)/2,-thin*5,-(servo_9g_body_h)/2])
+                    cube([thin, thin, thin*2], center=true);
+
+                //left panel
+                translate([0,-(servo_9g_body_l+thin)/2,0])
+                    cube([servo_9g_body_w,thin,servo_9g_body_h],center=true);
+                //right panel
+                translate([0,(servo_9g_body_l+thin)/2,0])
+                    cube([servo_9g_body_w,thin,servo_9g_body_h],center=true);
+         
+//                gear_h = 5;
+//                //gear
+//                translate([0,(servo_9g_body_l+gear_h)/2,(servo_9g_body_h-servo_9g_body_w)/2])
+//                    rotate([90,0,0])
+//                        cylinder(d=8,h=gear_h,center=true,$fn=aFn);
+            }
+            //belling cylinder
+            translate([0,0,(servo_9g_body_h-servo_9g_body_w)/2])
+                rotate([90,0,0])
+                    cylinder(d=6,h=60,center=true,$fn=aFn);
+        }
+//    }
 }
 
 
