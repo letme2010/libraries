@@ -45,3 +45,16 @@ servo_9g_axis2_h = 3;
 servo_9g_axis2_r = servo_9g_body_w/2;
 servo_9g_axis_offset = 8;
 
+
+servo_sg5010_w = 20;
+servo_sg5010_h = 39.27;
+servo_sg5010_l = 40;
+servo_sg5010_wings_w = servo_sg5010_w;
+servo_sg5010_wings_h = 2.7;
+servo_sg5010_wings_l = 7;
+servo_sg5010_wings_top_margin = 9;
+servo_sg5010_axis_d = 5.81;
+servo_sg5010_axis_h = 4.27;
+servo_sg5010_axis_right_margin = 12.69 - servo_sg5010_axis_d/2;
+servo_sg5010_axis_plane_d = 13.52;
+servo_sg5010_axis_plane_h = 1.88;
