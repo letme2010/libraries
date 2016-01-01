@@ -112,9 +112,9 @@ module test() {
 //    servoArm1();
 //    rect(w=10,h=10,r=2);
 //    %square([10,10],center=true);
-//    #servo9g(false, false);
+    servo_9g();
 //    servo9gRotator1();
-    servo_sg5010();
+//    servoSG5010();
 }
 
 module rect(w,h,r=0) {
@@ -135,6 +135,24 @@ module rect(w,h,r=0) {
     } else {
         square([width,height],center=true);
     }
+}
+
+module servo_9g() {
+       servoBase(
+        [0,0,1],
+        servo_9g_w,
+        servo_9g_h,
+        servo_9g_l,
+        servo_9g_wings_w,
+        servo_9g_wings_h,
+        servo_9g_wings_l,
+        servo_9g_wings_top_margin,
+        servo_9g_axis_d,
+        servo_9g_axis_h,
+        servo_9g_axis_right_margin,
+        servo_9g_axis_plane_d,
+        servo_9g_axis_plane_h
+    ); 
 }
 
 module servo_sg5010() {
@@ -211,27 +229,6 @@ module servoBase(
             cube(center=true,[a_servo_wings_w, a_servo_wings_l, a_servo_wings_h]);
         }
     }
-}
-
-module servo9g(aTopWing=true, aBottomWing=true) {
-    color ([0,0,1]) {
-        cube([servo_9g_body_w,servo_9g_body_l,servo_9g_body_h],center=true);
-        translate([0,servo_9g_axis_offset,(servo_9g_body_h-servo_9g_axis2_h)/2+servo_9g_axis2_h]) 
-            cylinder(r=servo_9g_axis2_r,h=servo_9g_axis2_h,center=true);
-        if (aTopWing) {
-            translate([0,(servo_9g_body_l-servo_9g_wings_l)/2+servo_9g_wings_l,(servo_9g_body_h-servo_9g_wings_h)/2-servo_9g_wings_top_margin]) 
-                cube([servo_9g_body_w,servo_9g_wings_l,servo_9g_wings_h],center=true);
-        }
-        if (aBottomWing) {
-            translate([0,-((servo_9g_body_l-servo_9g_wings_l)/2+servo_9g_wings_l),(servo_9g_body_h-servo_9g_wings_h)/2-servo_9g_wings_top_margin]) 
-                cube([servo_9g_body_w,servo_9g_wings_l,servo_9g_wings_h],center=true);
-        }
-
-    }
-    translate([0,servo_9g_axis_offset,(servo_9g_body_h-servo_9g_axis2_h)/2+servo_9g_axis2_h*2]) 
-        color([1,1,1])
-            cylinder(r=servo_9g_axis1_r,h=servo_9g_axis1_h,center=true);
-
 }
 
 module servo9gRotator1(aFn=16) {
