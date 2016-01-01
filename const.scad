@@ -45,7 +45,7 @@ servo_9g_axis_plane_d = 11.5;
 servo_9g_axis_plane_h = 27.05 - servo_9g_h;
 servo_9g_axis_d = 4.6;
 servo_9g_axis_h = 3;
-servo_9g_axis_right_margin = 8 - servo_9g_axis_d/2;
+servo_9g_axis_center_right_margin = 8 - servo_9g_axis_d/2;
 
 servo_sg5010_w = 20;
 servo_sg5010_h = 39.27;
@@ -58,4 +58,4 @@ servo_sg5010_axis_plane_d = 13.52;
 servo_sg5010_axis_plane_h = 1.88;
 servo_sg5010_axis_d = 5.81;
 servo_sg5010_axis_h = 4.27;
-servo_sg5010_axis_right_margin = 12.69 - servo_sg5010_axis_d/2;
+servo_sg5010_axis_center_right_margin = 12.69 - servo_sg5010_axis_d/2;

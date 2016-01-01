@@ -149,7 +149,7 @@ module servo_9g() {
         servo_9g_wings_top_margin,
         servo_9g_axis_d,
         servo_9g_axis_h,
-        servo_9g_axis_right_margin,
+        servo_9g_axis_center_right_margin,
         servo_9g_axis_plane_d,
         servo_9g_axis_plane_h
     ); 
@@ -167,7 +167,7 @@ module servo_sg5010() {
         servo_sg5010_wings_top_margin,
         servo_sg5010_axis_d,
         servo_sg5010_axis_h,
-        servo_sg5010_axis_right_margin,
+        servo_sg5010_axis_center_right_margin,
         servo_sg5010_axis_plane_d,
         servo_sg5010_axis_plane_h
     );
@@ -184,7 +184,7 @@ module servoBase(
         a_servo_wings_top_margin,
         a_servo_axis_d,
         a_servo_axis_h,
-        a_servo_axis_right_margin,
+        a_servo_axis_center_right_margin,
         a_servo_axis_plane_d,
         a_servo_axis_plane_h) {
 
@@ -192,7 +192,7 @@ module servoBase(
     color([1,1,1]) {
         translate([
                     0,
-                    a_servo_l/2-a_servo_axis_right_margin,
+                    a_servo_l/2-a_servo_axis_center_right_margin,
                     (a_servo_h+a_servo_axis_h)/2+a_servo_axis_plane_h
                     ]) {
             cylinder(center=true,d=a_servo_axis_d,h=a_servo_axis_h);
@@ -202,7 +202,7 @@ module servoBase(
     color (a_color) {
         translate([
                     0,
-                    a_servo_l/2-a_servo_axis_right_margin,
+                    a_servo_l/2-a_servo_axis_center_right_margin,
                     (a_servo_h+a_servo_axis_plane_h)/2
                 ]) {
             cylinder(center=true,d=a_servo_axis_plane_d,h=a_servo_axis_plane_h);
