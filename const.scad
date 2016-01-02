@@ -59,3 +59,6 @@ servo_sg5010_axis_plane_h = 1.88;
 servo_sg5010_axis_d = 5.81;
 servo_sg5010_axis_h = 4.27;
 servo_sg5010_axis_center_right_margin = 12.69 - servo_sg5010_axis_d/2;
+
+battery_18650_d = 18;
+battery_18650_h = 65;

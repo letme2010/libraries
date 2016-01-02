@@ -112,9 +112,21 @@ module test() {
 //    servoArm1();
 //    rect(w=10,h=10,r=2);
 //    %square([10,10],center=true);
-    servo_9g();
+//    servo_9g();
 //    servo9gRotator1();
-//    servoSG5010();
+    servo_sg5010();
+//    battery_18650();
+}
+
+module battery_18650() {
+    color([1,1,1]) {
+        translate([0,0,(battery_18650_h+2)/2]) {
+            cylinder(center=true, d=battery_18650_d-3, h=2);
+        }
+    }
+    color([1,0.5,1]) {
+        cylinder(center=true, d=battery_18650_d, h=battery_18650_h);
+    }
 }
 
 module rect(w,h,r=0) {
@@ -137,7 +149,7 @@ module rect(w,h,r=0) {
     }
 }
 
-module servo_9g() {
+module servo_9g(a_left_wings=true, a_right_wings=true) {
        servoBase(
         [0,0,1],
         servo_9g_w,
@@ -151,11 +163,13 @@ module servo_9g() {
         servo_9g_axis_h,
         servo_9g_axis_center_right_margin,
         servo_9g_axis_plane_d,
-        servo_9g_axis_plane_h
+        servo_9g_axis_plane_h,
+        a_left_wings,
+        a_right_wings
     ); 
 }
 
-module servo_sg5010() {
+module servo_sg5010(a_left_wings=true, a_right_wings=true) {
     servoBase(
         [0.2,0.2,0.2],
         servo_sg5010_w,
@@ -169,7 +183,9 @@ module servo_sg5010() {
         servo_sg5010_axis_h,
         servo_sg5010_axis_center_right_margin,
         servo_sg5010_axis_plane_d,
-        servo_sg5010_axis_plane_h
+        servo_sg5010_axis_plane_h,
+        a_left_wings,
+        a_right_wings
     );
 }
 
@@ -186,7 +202,10 @@ module servoBase(
         a_servo_axis_h,
         a_servo_axis_center_right_margin,
         a_servo_axis_plane_d,
-        a_servo_axis_plane_h) {
+        a_servo_axis_plane_h,
+        a_left_wings=true,
+        a_right_wings=true
+    ) {
 
     //axis
     color([1,1,1]) {
@@ -214,19 +233,23 @@ module servoBase(
     }
     //wings
     color (a_color) {
-        translate([
-                    0,
-                    (a_servo_l+a_servo_wings_l)/2,
-                    (a_servo_h-a_servo_wings_h)/2-a_servo_wings_top_margin
-                    ]) {
-            cube(center=true,[a_servo_wings_w, a_servo_wings_l, a_servo_wings_h]);
+        if (a_left_wings) {
+            translate([
+                        0,
+                        (a_servo_l+a_servo_wings_l)/2,
+                        (a_servo_h-a_servo_wings_h)/2-a_servo_wings_top_margin
+                        ]) {
+                cube(center=true,[a_servo_wings_w, a_servo_wings_l, a_servo_wings_h]);
+            }
         }
-        translate([
-                    0,
-                    -(a_servo_l+a_servo_wings_l)/2,
-                    (a_servo_h-a_servo_wings_h)/2-a_servo_wings_top_margin
-                    ]) {
-            cube(center=true,[a_servo_wings_w, a_servo_wings_l, a_servo_wings_h]);
+        if (a_right_wings) {
+            translate([
+                        0,
+                        -(a_servo_l+a_servo_wings_l)/2,
+                        (a_servo_h-a_servo_wings_h)/2-a_servo_wings_top_margin
+                        ]) {
+                cube(center=true,[a_servo_wings_w, a_servo_wings_l, a_servo_wings_h]);
+            }
         }
     }
 }
