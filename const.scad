@@ -62,3 +62,14 @@ servo_sg5010_axis_center_right_margin = 12.69 - servo_sg5010_axis_d/2;
 
 battery_18650_d = 18;
 battery_18650_h = 65;
+
+servo_sg5010_arm1_l = 38.6;
+servo_sg5010_arm1_w = 12.78;
+servo_sg5010_arm1_h = 5.83;
+servo_sg5010_arm1_wings_h = 2.38;
+servo_sg5010_arm1_wings_w1 = 9.3;
+servo_sg5010_arm1_wings_w2 = 5.28;
+servo_sg5010_arm1_wings_l = 14.74;
+servo_sg5010_arm_axis_d = 8.84;
+servo_sg5010_arm_axis_t = 1.8;
+

@@ -96,11 +96,21 @@ difference() {
 }
 }
 
-module pipe(r_out, t, h, center = true) {
+module pipe(r_out, t, h, center = true, a_fn=16) {
     difference() {
-        cylinder(r = r_out, h = h, center = center, $fn = 100);
+        cylinder(
+            r = r_out,
+            h = h,
+            center = center,
+            $fn = a_fn
+        );
         translate([0,0,-1]) {
-            cylinder(r = (r_out - t), h = (h + 4), center = center, $fn = 100);
+            cylinder(
+                r = (r_out - t), 
+                h = (h + 4),
+                center = center,
+                $fn = a_fn
+            );
         }
     }
 }
@@ -114,8 +124,304 @@ module test() {
 //    %square([10,10],center=true);
 //    servo_9g();
 //    servo9gRotator1();
-    servo_sg5010();
+    servo_sg5010(false,false,0);
+    joint_sg5010();
+//    arm_sg5010();
 //    battery_18650();
+}
+
+//servo_sg5010_arm1_l = 38.6;
+//servo_sg5010_arm1_w = 12.78l
+//servo_sg5010_arm1_h = 5.83;
+//servo_sg5010_arm1_wings_h = 2.38;
+//servo_sg5010_arm1_wings_w1 = 9.3;
+//servo_sg5010_arm1_wings_w2 = 5.28;
+//servo_sg5010_arm1_wings_l = 14.74;
+//servo_sg5010_arm_axis_d = 8.84;
+//servo_sg5010_arm_axis_t = 1.8;
+
+module mock_axis_sg5010(a_fn=16) {
+
+    //cylinder for mock axis
+    color([1,0,1]) {
+        translate([
+            0,
+            servo_sg5010_l/2-servo_sg5010_axis_center_right_margin,
+            -(servo_sg5010_h+2)/2]
+        ) {
+            cylinder(
+                center=true,
+                d=servo_sg5010_axis_plane_d-1,
+                h=2,
+                $fn=a_fn);
+        }
+        translate([
+            0,
+            servo_sg5010_l/2-servo_sg5010_axis_center_right_margin,
+            -(servo_sg5010_h)/2-servo_sg5010_axis_h]
+        ) {
+            cylinder(
+                center=true,
+                d=servo_sg5010_axis_d,
+                h=servo_sg5010_axis_h,
+                $fn=a_fn);
+        }
+    }
+
+}
+
+module joint_bottom_frame_sg5010(a_fn=16) {
+    //bottom frame
+    difference() {
+        union() {
+            //bottom panel
+            translate([0,0,-(servo_sg5010_h+2)/2]) {
+                cube(
+                    center=true,
+                    [servo_sg5010_w,servo_sg5010_l,
+                    2]);
+            }
+        }
+        //cylinder for hole
+        union() {
+            translate([
+                0,
+                servo_sg5010_l/2-servo_sg5010_axis_center_right_margin,
+                0]) {
+                cylinder(
+                    center=true,
+                    d=servo_sg5010_axis_plane_d,
+                    h=60,
+                    $fn=a_fn);
+            }
+            translate([
+                0,
+                -(servo_sg5010_l/2-servo_sg5010_axis_center_right_margin),
+                0]) {
+                cylinder(
+                    center=true,
+                    d=servo_sg5010_axis_plane_d,
+                    h=60,
+                    $fn=a_fn);
+            }
+        }
+
+    }
+    
+    //x
+    translate([
+        (servo_sg5010_w+2)/2,
+        6,
+        -(servo_sg5010_h)/2+1]) {
+        cube(center=true,[2,3,6]);
+    }
+    translate([
+        (servo_sg5010_w+2)/2,
+        -6,
+        -(servo_sg5010_h)/2+1]) {
+        cube(center=true,[2,3,6]);
+    }
+    //-x
+    mirror([1,0,0]) {
+        translate([
+            (servo_sg5010_w+2)/2,
+            6,
+            -(servo_sg5010_h)/2+1]) {
+            cube(center=true,[2,3,6]);
+        }
+        translate([
+            (servo_sg5010_w+2)/2,
+            -6,
+            -(servo_sg5010_h)/2+1]) {
+            cube(center=true,[2,3,6]);
+        }
+    }
+    //y
+    translate([
+        (servo_sg5010_w-3)/2,
+        (servo_sg5010_l+2)/2,
+        -(servo_sg5010_h)/2+1]) {
+        cube(center=true,[3,2,6]);
+    }
+    translate([
+        -(servo_sg5010_w-3)/2,
+        (servo_sg5010_l+2)/2,
+        -(servo_sg5010_h)/2+1]) {
+        cube(center=true,[3,2,6]);
+    }
+    //-y
+    mirror([0,1,0]) {
+        translate([
+            (servo_sg5010_w-3)/2,
+            (servo_sg5010_l+2)/2,
+            -(servo_sg5010_h)/2+1]) {
+            cube(center=true,[3,2,6]);
+        }
+        translate([
+            -(servo_sg5010_w-3)/2,
+            (servo_sg5010_l+2)/2,
+            -(servo_sg5010_h)/2+1]) {
+            cube(center=true,[3,2,6]);
+        }
+    }
+
+}
+
+module hook_top_sg5010(a_fn=16) {
+    if(false){
+        %translate([
+            0,
+            (servo_sg5010_l/2-servo_sg5010_axis_center_right_margin),
+            0
+        ]) {
+            cylinder(center=true,d=32+3,h=60,$fn=100);
+            cylinder(center=true,d=32,h=60,$fn=100);
+        }
+    }
+
+    color([0,0,1]) {
+        difference() {
+            translate([
+                0,
+                (servo_sg5010_l/2-servo_sg5010_axis_center_right_margin)+5.5,
+                0
+            ]) {
+                difference() {
+                    cube(
+                        center=true,
+                        [10,24,servo_sg5010_h+16]
+                    );
+                    union() {
+                        translate([0,-3,0]) {
+                            cube(
+                                center=true,
+                                [10+2,24-3,servo_sg5010_h+16-8]
+                            );
+                        }
+                    }
+                }
+            }
+            union() {
+                translate([
+                    0,
+                    (servo_sg5010_l/2-servo_sg5010_axis_center_right_margin),
+                    0]) {
+                            cylinder(
+                                center=true,
+                                d=servo_sg5010_axis_d,
+                                h=53,
+                                $fn=a_fn);
+                            cylinder(
+                                center=true,
+                                d=2,
+                                h=60,
+                                $fn=a_fn);
+                }
+                translate([0,5,0]) {
+                    cube(center=true,[1,10,100]);
+                }
+                translate([0,5.5,servo_sg5010_h/2+6]) {
+                    rotate([0,90,0]) {
+                        cylinder(
+                            center=true,
+                            d=2,
+                            h=20,
+                            $fn=a_fn
+                        );
+                    }
+                }
+                translate([0,5.5,-(servo_sg5010_h/2+6)]) {
+                    rotate([0,90,0]) {
+                        cylinder(
+                            center=true,
+                            d=2,
+                            h=20,
+                            $fn=a_fn
+                        );
+                    }
+                }
+            }
+        }
+    }
+}
+
+module joint_sg5010(a_fn=16) {
+    joint_bottom_frame_sg5010();
+    mock_axis_sg5010();
+//    joint_sg5010();
+    hook_top_sg5010();
+}
+
+module arm_sg5010() {
+    color([0.2,0.2,0.2]) {
+        difference() {
+            union() {
+                {
+                    cylinder(
+                        center=true,
+                        d=servo_sg5010_arm1_w,
+                        h=servo_sg5010_arm1_wings_h,
+                        $fn=28);
+                    //right
+                    translate([
+                        0,
+                        servo_sg5010_arm1_l/2-servo_sg5010_arm1_wings_w2/2,
+                        0]) {
+                        cylinder(
+                            center=true,
+                            d=servo_sg5010_arm1_wings_w2,
+                            h=servo_sg5010_arm1_wings_h,
+                            $fn=28);
+                    }
+                    translate([
+                        0,
+                        -(servo_sg5010_arm1_l/2-servo_sg5010_arm1_wings_w2/2),
+                        0]) {
+                        cylinder(
+                            center=true,
+                            d=servo_sg5010_arm1_wings_w2,
+                            h=servo_sg5010_arm1_wings_h,
+                            $fn=28);
+                    }
+                }
+                {
+                    //polygon
+                    translate([0,2,0]) {
+                        linear_extrude(
+                            height = servo_sg5010_arm1_wings_h,
+                            center = true) {
+                            polygon(points=[
+                            [ servo_sg5010_arm1_wings_w1/2, 0],
+                            [-servo_sg5010_arm1_wings_w1/2, 0],
+                            [-servo_sg5010_arm1_wings_w2/2,servo_sg5010_arm1_wings_l],
+                            [servo_sg5010_arm1_wings_w2/2,servo_sg5010_arm1_wings_l]
+                            ], paths=[[0,1,2,3]]);
+                        }
+                    }
+                    mirror([0,1,0]) {
+                        translate([0,2,0]) {
+                            linear_extrude(
+                                height=servo_sg5010_arm1_wings_h,
+                                center=true) {
+                                polygon(points=[
+                                [ servo_sg5010_arm1_wings_w1/2, 0],
+                                [-servo_sg5010_arm1_wings_w1/2, 0],
+                                [-servo_sg5010_arm1_wings_w2/2,servo_sg5010_arm1_wings_l],
+                                [ servo_sg5010_arm1_wings_w2/2,servo_sg5010_arm1_wings_l]
+                                ], paths=[[0,1,2,3]]);
+                            }
+                        }
+                    }
+                }
+                {
+                    translate([0,0,(servo_sg5010_arm1_h-servo_sg5010_arm1_wings_h)/2]) {
+                        cylinder(center=true, d=servo_sg5010_arm_axis_d, h=servo_sg5010_arm1_h);
+                    }
+                }
+            }
+            cylinder(center=true,d=servo_sg5010_arm_axis_d-servo_sg5010_arm_axis_t*2,h=10);
+        }
+    }
 }
 
 module battery_18650() {
@@ -169,7 +475,18 @@ module servo_9g(a_left_wings=true, a_right_wings=true) {
     ); 
 }
 
-module servo_sg5010(a_left_wings=true, a_right_wings=true) {
+module servo_sg5010(
+        a_left_wings=true,
+        a_right_wings=true,
+        a_arm=0) {
+
+    if (1==a_arm) {
+        translate([0,servo_sg5010_w/2,servo_sg5010_h/2 + 7]) {
+            rotate([180,0,0]) {
+                arm_sg5010();
+            }
+        } 
+    }
     servoBase(
         [0.2,0.2,0.2],
         servo_sg5010_w,
@@ -187,6 +504,7 @@ module servo_sg5010(a_left_wings=true, a_right_wings=true) {
         a_left_wings,
         a_right_wings
     );
+    
 }
 
 module servoBase(
@@ -204,7 +522,8 @@ module servoBase(
         a_servo_axis_plane_d,
         a_servo_axis_plane_h,
         a_left_wings=true,
-        a_right_wings=true
+        a_right_wings=true,
+        a_fn=16
     ) {
 
     //axis
@@ -214,17 +533,20 @@ module servoBase(
                     a_servo_l/2-a_servo_axis_center_right_margin,
                     (a_servo_h+a_servo_axis_h)/2+a_servo_axis_plane_h
                     ]) {
-            cylinder(center=true,d=a_servo_axis_d,h=a_servo_axis_h);
+            cylinder(center=true,d=a_servo_axis_d,h=a_servo_axis_h,$fn=a_fn);
         }
     }
     //axis panel
     color (a_color) {
         translate([
-                    0,
-                    a_servo_l/2-a_servo_axis_center_right_margin,
-                    (a_servo_h+a_servo_axis_plane_h)/2
+            0,
+            a_servo_l/2-a_servo_axis_center_right_margin,
+            (a_servo_h+a_servo_axis_plane_h)/2
                 ]) {
-            cylinder(center=true,d=a_servo_axis_plane_d,h=a_servo_axis_plane_h);
+            cylinder(
+                center=true,
+                d=a_servo_axis_plane_d,
+                h=a_servo_axis_plane_h);
         }
     }
     //body
@@ -235,20 +557,24 @@ module servoBase(
     color (a_color) {
         if (a_left_wings) {
             translate([
-                        0,
-                        (a_servo_l+a_servo_wings_l)/2,
-                        (a_servo_h-a_servo_wings_h)/2-a_servo_wings_top_margin
+                0,
+                (a_servo_l+a_servo_wings_l)/2,
+                (a_servo_h-a_servo_wings_h)/2-a_servo_wings_top_margin
                         ]) {
-                cube(center=true,[a_servo_wings_w, a_servo_wings_l, a_servo_wings_h]);
+                cube(
+                    center=true,
+                    [a_servo_wings_w, a_servo_wings_l, a_servo_wings_h]);
             }
         }
         if (a_right_wings) {
             translate([
-                        0,
-                        -(a_servo_l+a_servo_wings_l)/2,
-                        (a_servo_h-a_servo_wings_h)/2-a_servo_wings_top_margin
+                0,
+                -(a_servo_l+a_servo_wings_l)/2,
+                (a_servo_h-a_servo_wings_h)/2-a_servo_wings_top_margin
                         ]) {
-                cube(center=true,[a_servo_wings_w, a_servo_wings_l, a_servo_wings_h]);
+                cube(
+                    center=true,
+                    [a_servo_wings_w, a_servo_wings_l, a_servo_wings_h]);
             }
         }
     }
